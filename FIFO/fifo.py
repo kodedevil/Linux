@@ -1,20 +1,23 @@
 import os
 import errno
+import time
 
-path = "pipe";	#path to the pipe used for accessing serial communication
-
+bufferSize = 100;
+PATH = "pipe";
 while 1:
-	pipe = os.open(path, os.O_RDONLY | os.O_NONBLOCK);
 	try:
-		input = os.read(pipe,10);
+		pipe = os.open(PATH, os.O_RDONLY | os.O_NONBLOCK);
+		input = os.read(pipe,bufferSize);
 	except OSError as err:
 		if err.errno == 11:
-			import time
-			time.sleep(0)
+			continue;
 		else:
 			raise err;
-
 	if input:
-		print(input[0]);
-		
-	os.close(pipe);
+		print(input);
+
+    os.close(pipe);
+
+    #Other functions
+    print "Sleep 500 ms"
+    time.sleep(0.5);	
