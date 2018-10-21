@@ -1,5 +1,4 @@
 import os
-import errno
 import time
 
 BUFFER_SIZE  = 100
@@ -8,11 +7,8 @@ while True:
     try:
         pipe = os.open(PATH, os.O_RDONLY | os.O_NONBLOCK)
         input = os.read(pipe, BUFFER_SIZE)
-    except OSError as err:
-        if err.errno == 11:
-            continue
-        else:
-            raise err
+    except BlockingIOError:
+        continue
     if input:
         print(input)
 
