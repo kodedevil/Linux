@@ -2,12 +2,12 @@ import os
 import errno
 import time
 
-bufferSize = 100
+BUFFER_SIZE  = 100
 PATH = "pipe"
-while 1:
+while True:
     try:
         pipe = os.open(PATH, os.O_RDONLY | os.O_NONBLOCK)
-        input = os.read(pipe,bufferSize)
+        input = os.read(pipe, BUFFER_SIZE)
     except OSError as err:
         if err.errno == 11:
             continue
@@ -18,7 +18,7 @@ while 1:
 
     os.close(pipe)
 
-    #Other functions
+    # Other functions
     print("Sleep 500 ms")
     time.sleep(0.5)	
 
