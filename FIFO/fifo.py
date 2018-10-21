@@ -1,20 +1,13 @@
 import os
 import time
 
-BUFFER_SIZE  = 100
 PATH = "pipe"
+
 while True:
-    try:
-        pipe = os.open(PATH, os.O_RDONLY | os.O_NONBLOCK)
-        input = os.read(pipe, BUFFER_SIZE)
-    except BlockingIOError:
-        continue
-    if input:
-        print(input)
-
-    os.close(pipe)
-
-    # Other functions
+    with os.fdopen(os.open(PATH, os.O_RDONLY | os.O_NONBLOCK)) as pipe:
+        received = pipe.read()
+        if received:
+            print("Read: '{}'".format(received))
     print("Sleep 500 ms")
-    time.sleep(0.5)	
+    time.sleep(0.5)
 
